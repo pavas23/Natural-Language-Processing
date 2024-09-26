@@ -1,3 +1,7 @@
 pandas
-nltk
 spacy
+scikit-learn
+transformers
+torch
+keras
+torchcrf

@@ -2,7 +2,8 @@
 
 - python3 -m venv myenv
 - source myenv/bin/activate
-- pip install -r requirements.txt
+- python3 -m pip install -r requirements.txt
+- python3 -m spacy download en_core_web_sm
 
 ## Steps to Run Jupyter Notebook
 
