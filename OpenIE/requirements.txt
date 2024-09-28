@@ -4,4 +4,4 @@ scikit-learn
 transformers
 torch
 keras
-torchcrf
+pytorch-crf
