@@ -142,7 +142,7 @@ def evaluate_bilstm_crf(model, val_loader, label_to_idx):
     return avg_loss, accuracy
 
 
-def evaluate_bilstm_crf_with_text_output(model, embeddings, labels, label_encoder):
+def evaluate_bilstm_crf_with_text_output(model, embeddings, labels, label_encoder, logging):
     model.eval()
     with torch.no_grad():
         for emb, true_labels in zip(embeddings, labels):
@@ -165,10 +165,10 @@ def evaluate_bilstm_crf_with_text_output(model, embeddings, labels, label_encode
             predicted_labels = label_encoder.inverse_transform(predicted_indices)  # No need for squeeze() here
             true_labels_text = label_encoder.inverse_transform(true_labels.squeeze(0).cpu().numpy())
 
-            # Display the predicted and true labels
-            print("Predicted Labels: ", predicted_labels)
-            print("True Labels:      ", true_labels_text)
-            print("-" * 50)
+            # Log the predicted and true labels
+            logging.info(f"Predicted Labels: {predicted_labels}")
+            logging.info(f"True Labels:      {true_labels_text}")
+            logging.info("-" * 50)
 
 
 def load_test_dataset(file_path):

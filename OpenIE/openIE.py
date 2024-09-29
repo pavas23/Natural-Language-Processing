@@ -8,6 +8,7 @@ import model
 
 import spacy
 import torch
+import logging
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
@@ -161,12 +162,20 @@ val_loss, val_accuracy = helper.evaluate_bilstm_crf(
     label_to_idx,
 )
 
-# Call the modified evaluation function
+# Set up logging
+logging.basicConfig(
+    filename='bilstm_crf_val_predictions.log', 
+    level=logging.INFO, 
+    format='%(asctime)s - %(message)s',
+)
+
+# Call the evaluation function
 helper.evaluate_bilstm_crf_with_text_output(
     model,
     val_embeddings,
     val_labels,
     label_encoder,
+    logging,
 )
 
 df_test = helper.load_test_dataset('./Dataset/test.txt')
