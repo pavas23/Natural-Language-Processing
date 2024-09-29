@@ -2,6 +2,7 @@ pandas
 spacy
 scikit-learn
 transformers
+matplotlib
 torch
 keras
 pytorch-crf
