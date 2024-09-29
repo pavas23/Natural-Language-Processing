@@ -272,5 +272,3 @@ def generate_extractions_bilstm_crf(model, padded_embeddings, df_test, labels, i
         results.extend(sentence_results)
 
     return results
-
-
