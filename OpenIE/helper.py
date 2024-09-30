@@ -1,12 +1,13 @@
-'''Helper functions used in open information extraction task.'''
+'''Helper functions used in Open Information Extraction task.'''
 
+# Imports
 import spacy
 import torch
 import pandas as pd
 import matplotlib.pyplot as plt
 
 
-# function to load the datatset
+# Function to load the datatset
 def load_dataset(file_path):
     sentences = []
     labels = []
@@ -115,8 +116,6 @@ def evaluate_bilstm_crf(model, val_loader, label_to_idx):
     correct = 0
     total = 0
 
-    all_predicted_tags = []  # List to collect all predicted tags for analysis
-
     with torch.no_grad():
         for inputs, labels in val_loader:
             # Create mask for valid tokens (non-padding)
@@ -190,14 +189,14 @@ def generate_test_token(row):
     return tokens
 
 
-def generate_extractions_bilstm_crf(model, padded_embeddings, df_test, labels, idx_to_label):
+def generate_extractions_bilstm_crf(model, padded_embeddings, df_test, idx_to_label):
     model.eval()
     
     with torch.no_grad():
         # Forward pass through the model to get predicted tags (for CRF)
         predicted_tags = model(padded_embeddings)  # No need to pass the mask; CRF decodes the valid outputs
         # Since predicted_tags is a list of lists, convert it to a tensor for indexing
-        predicted_tags = torch.tensor(predicted_tags, dtype=torch.long, device=labels.device)
+        predicted_tags = torch.tensor(predicted_tags, dtype=torch.long, device=torch.device("cuda" if torch.cuda.is_available() else "cpu"))
 
     results = []
     

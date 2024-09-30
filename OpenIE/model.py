@@ -1,5 +1,6 @@
-'''Supervised Model for open information extraction task.'''
+'''Supervised Model for Open Information Extraction task.'''
 
+# Imports
 import torch.nn as nn
 from TorchCRF import CRF
 
