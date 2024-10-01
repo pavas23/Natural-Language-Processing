@@ -6,3 +6,5 @@ matplotlib
 torch
 keras
 pytorch-crf
+matplotlib
+matplotlib-inline

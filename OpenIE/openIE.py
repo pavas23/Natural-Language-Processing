@@ -8,7 +8,7 @@ import helper
 import model
 
 import os
-import logging
+import spacy
 import torch
 
 from sklearn.preprocessing import LabelEncoder
@@ -16,7 +16,6 @@ from torch.nn.utils.rnn import pad_sequence
 from transformers import AutoTokenizer, AutoModel
 import torch.optim as optim
 
-print("Starting Open IE...")
 
 MODEL_FILENAME = "model_checkpoint.pth.tar"
 # EXTRACTION_FILE_PATH = '../CaRB/system_outputs/test/extractions.txt'
@@ -83,16 +82,30 @@ df_test['Embeddings'] = [padded_embeddings_test[i] for i in range(padded_embeddi
 # Create the reverse mapping from index to label
 idx_to_label = {v: k for k, v in label_to_idx.items()}
 
-extractions = helper.generate_extractions_bilstm_crf(
-    openIEModel,
-    padded_embeddings_test,
-    df_test,
-    idx_to_label,
-)
+extractions, skipped_count = helper.generate_extractions_bilstm_crf_strict(openIEModel, padded_embeddings_test, df_test)
+print(f"Total skipped sentences: {skipped_count}")
 
 # Write output extractions to a tab separated file
-with open(EXTRACTION_FILE_PATH, 'w') as f:
+with open('../CaRB/system_outputs/test/extractions_strict.txt', 'w') as f:
     for extraction in extractions:
         f.write(extraction + '\n')
 
-print("Test Extraction file has been created.")
+print("Test Extraction Strict file has been created.")
+
+extractions, skipped_count = helper.generate_extractions_bilstm_crf_with_confidence(openIEModel, padded_embeddings_test, df_test)
+print(f"Total skipped sentences: {skipped_count}")
+
+# Write output extractions to a tab separated file
+with open('../CaRB/system_outputs/test/extractions_confidence.txt', 'w') as f:
+    for extraction in extractions:
+        f.write(extraction + '\n')
+
+print("Test Extraction Confidence file has been created.")
+
+# error analysis
+nlp = spacy.load('en_core_web_sm')
+helper.analyze_extractions(
+    nlp,
+    './Dataset/test_gold.txt',
+    './Dataset/extractions.txt',
+)

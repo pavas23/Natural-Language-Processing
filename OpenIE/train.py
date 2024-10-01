@@ -23,8 +23,8 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 LR = 0.001
-NUM_EPOCHS = 500
-TRAIN_DATASET_SIZE = 100000
+NUM_EPOCHS = 100
+TRAIN_DATASET_SIZE = 4500
 MODEL_FILENAME = "model_checkpoint.pth.tar"
 
 # Model parameters
@@ -42,7 +42,7 @@ df = pd.DataFrame({
 # Training on a subset of dataset
 # as loading entire dataset into memory
 # causes kernel crash
-# df = df[:TRAIN_DATASET_SIZE]
+df = df[:TRAIN_DATASET_SIZE]
 
 # Tokenize sentences using spacy
 nlp = spacy.load('en_core_web_sm')
@@ -164,7 +164,7 @@ for epoch in range(NUM_EPOCHS):
     
     print(f"Epoch {epoch + 1}/{NUM_EPOCHS}, Loss: {total_loss / len(train_loader)}")
 
-# helper.plot_training_loss(
-#     NUM_EPOCHS,
-#     epoch_losses,
-# )
+helper.plot_training_loss(
+    NUM_EPOCHS,
+    epoch_losses,
+)
