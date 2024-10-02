@@ -38,3 +38,4 @@ class BiLSTM_CRF(nn.Module):
         
         # If tags are not provided, return the predicted tags
         return self.crf.decode(emissions, mask=mask)
+

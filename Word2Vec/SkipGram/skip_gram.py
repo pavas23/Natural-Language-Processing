@@ -62,9 +62,9 @@ class SkipGramModel(object):
             self.word_index[data[i]] = i
             
     def train(self,mytol,maxepochs=20000):
-      	#initialize loss
+      	# Initialize loss
         self.loss =0
-        self.loss1 = 1 #random number 1
+        self.loss1 = 1 # Random number 1
         itr=1
         
         while abs(self.loss1 - self.loss)>= mytol and itr <= maxepochs:
@@ -72,12 +72,12 @@ class SkipGramModel(object):
             self.loss = 0
             for j in range(len(self.X_train)):
 
-             		# implementing feedforward 
+             	# Implementing feedforward 
                 self.h = np.dot(self.W.T,self.X_train[j]).reshape(self.Neuron,1)
                 self.u = np.dot(self.W1.T,self.h)
                 self.y = softmax(self.u)
                 
-                # implementation of back propogration
+                # Implementation of back propogration
                 error = self.y - np.asarray(self.y_train[j]).reshape(self.V,1)
                 dLdW1 = np.dot(self.h,error.T)
                 X = np.array(self.X_train[j]).reshape(self.V,1)
@@ -86,16 +86,16 @@ class SkipGramModel(object):
                 self.W1 = self.W1 - self.lr*dLdW1
                 self.W = self.W - self.lr*dLdW
 
-                #loss Function
+                # Loss Function
                 C = 0
                 for m in range(self.V):
                     if(self.y_train[j][m]):
                         self.loss += -1*self.u[m][0]
                         C += 1
                 self.loss += C*np.log(np.sum(np.exp(self.u)))
-            #Print loss
+            # Print loss
             # print("epoch ",itr, " loss = ",self.loss)
-            #update adaptive alpha
+            # Update adaptive alpha
             self.lr *= 1/( (1+self.lr*itr) )
             itr=itr+1
              
@@ -106,7 +106,7 @@ class SkipGramModel(object):
             X[index] = 1
 
 
-            #prediction = self.feed_forward(X)
+            # prediction = self.feed_forward(X)
             self.h = np.dot(self.W.T,X).reshape(self.Neuron,1)
             self.u = np.dot(self.W1.T,self.h)
             self.y = softmax(self.u)
@@ -544,7 +544,7 @@ def prepare_test_data(sentences, window_size, vocab):
 
 c_t = test_data["text"][:100]
 
-c_t = ""
+c_t_t = ""
 for i in c_t:
   c_t_t= c_t_t +"."+ i
 

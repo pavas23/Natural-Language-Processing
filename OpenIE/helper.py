@@ -740,3 +740,4 @@ def analyze_extractions(nlp, gold_file, extraction_file):
     print("\nIncorrect Extractions:")
     for category, percentage in incorrect_percentages.items():
         print(f"{category}: {percentage:.2f}%")
+
